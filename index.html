@@ -94,22 +94,24 @@
             </div>
         </section>
         <section id="formulario" class="container my-8">
-            <h2 class="text-center mb-4">Dejanos tu comentario</h2>
-            <form id="form" action="#" method="POST">
-                <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Nombres Completos</label>
-                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Ingresa tus nombres completos">
-                </div>
-                    <div class="mb-3">
-                    <label for="exampleFormControlTextarea1" class="form-label">Comentario</label>
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                </div>
-                <button type="button" class="btn btn-success">Enviar Comentario</button>
-            </form>
+        <h2 class="text-center mb-4">Déjanos tu comentario</h2>
+        <form id="form">
+            <div class="mb-3">
+            <label for="nombres" class="form-label">Nombres Completos</label>
+            <input type="text" class="form-control" id="nombres" name="nombres" required>
+            </div>
+            <div class="mb-3">
+            <label for="comentario" class="form-label">Comentario</label>
+            <textarea class="form-control" id="comentario" name="comentario" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Enviar Comentario</button>
+        </form>
         </section>
 
         <section id="comentarios" class="container my-8">
-            <h3 class="text-center mb-4">Tus comentarios</h3>
+        <h3 class="text-center mb-4">Tus comentarios</h3>
+        <!-- Contenedor donde se insertan los comentarios -->
+        <div id="lista-comentarios"></div>
         </section>
     </main>
     <footer class="text-center text-lg-start bg-body-tertiary text-muted">
