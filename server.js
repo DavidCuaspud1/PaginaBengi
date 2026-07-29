@@ -5,33 +5,37 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middlewares para procesar datos JSON y de formularios URL-encoded
+// Middlewares para procesar datos
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Configuración de variables de sesión
 app.use(session({
-    secret: 'mi_clave_secreta_sena', // Cambia esto por una clave más segura en producción
+    secret: 'mi_clave_secreta_bengi',
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 3600000 } // La sesión dura 1 hora
+    cookie: { maxAge: 3600000 }
 }));
 
-// Servir archivos estáticos (tu HTML, CSS, JS frontend)
-app.use(express.static(path.join(__dirname, 'public')));
+// 1. Servir archivos estáticos de la carpeta raíz
+app.use(express.static(__dirname));
 
-// --- RUTAS DE LA API ---
+// 2. Ruta principal que entrega tu index.html
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
-// 1. Obtener la lista de comentarios guardados en la sesión actual
+// --- RUTAS DE LA API PARA COMENTARIOS ---
+
+// Obtener comentarios de la sesión
 app.get('/api/comentarios', (req, res) => {
-    // Si la lista de comentarios no existe en la sesión, la inicializamos vacía
     if (!req.session.comentarios) {
         req.session.comentarios = [];
     }
     res.json(req.session.comentarios);
 });
 
-// 2. Guardar un nuevo comentario en la variable de sesión
+// Guardar comentario en la sesión
 app.post('/api/comentarios', (req, res) => {
     const { nombres, comentario } = req.body;
 
@@ -43,7 +47,6 @@ app.post('/api/comentarios', (req, res) => {
         req.session.comentarios = [];
     }
 
-    // Agregar el nuevo comentario a la sesión
     const nuevoComentario = {
         nombres,
         comentario,
@@ -53,12 +56,12 @@ app.post('/api/comentarios', (req, res) => {
     req.session.comentarios.push(nuevoComentario);
 
     res.status(201).json({ 
-        mensaje: 'Comentario guardado con éxito en la sesión.', 
+        mensaje: 'Comentario guardado en la sesión.', 
         comentarios: req.session.comentarios 
     });
 });
 
 // Iniciar el servidor
 app.listen(PORT, () => {
-    console.log(`Servidor corriendo en el puerto ${PORT}`);
+    console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
